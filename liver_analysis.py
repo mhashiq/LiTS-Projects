@@ -70,22 +70,6 @@ def analyze_liver(volume_files, seg_files, data_folder, output_folder):
         plt.subplot(1, 4, 2)
         plt.imshow(volume[:, :, slice_idx], cmap='gray')
         plt.imshow(segmentation[:, :, slice_idx] == 1, cmap='jet', alpha=0.5)
-
-        # Add a yellow border around the liver
-        liver_coords = np.argwhere(segmentation[:, :, slice_idx] == 1)
-        if liver_coords.size > 0:
-            min_row, min_col = liver_coords.min(axis=0)
-            max_row, max_col = liver_coords.max(axis=0)
-            rect = Rectangle((min_col, min_row), max_col - min_col, max_row - min_row,
-                             linewidth=2, edgecolor='yellow', facecolor='none')
-            plt.gca().add_patch(rect)
-
-            # Add a navigation arrow pointing to the liver
-            plt.annotate(f"Liver Size: {liver_volume:.2f} mL",
-                         xy=(min_col, min_row), xytext=(min_col - 50, min_row - 50),
-                         arrowprops=dict(facecolor='red', shrink=0.05),
-                         fontsize=10, color='white')
-
         plt.title(f"CT Slice with Liver Overlay\nLiver Status: {liver_status}")
         plt.axis('off')
 
